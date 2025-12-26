@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JNT Shipment Calculator</title>
+
+    <!-- External CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- Custom CSS -->                                   <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+    <div class="container mx-auto px-4 py-8 max-w-6xl flex-grow">                                                   <!-- Header -->
+        <div class="bg-gradient-to-r from-red-500 to-red-600 rounded-lg shadow-lg p-6 mb-8">
+            <h1 class="text-3xl font-bold text-white text-center">
+                <i class="fas fa-shipping-fast mr-2"></i>JNT Shipment Calculator
+            </h1>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="bg-white rounded-lg shadow-md mb-6">
+            <div class="flex flex-wrap border-b">
+                <button onclick="showTab('hitung-paket')" class="tab-btn flex-1 px-4 py-3 text-sm font-medium text-center border-b-2 border-red-500 text-red-600 hover:text-red-600 focus:outline-none">
+                    <i class="fas fa-calculator mr-2"></i>Hitung Paket
+                </button>
+                <button onclick="showTab('mondev')" class="tab-btn flex-1 px-4 py-3 text-sm font-medium text-center border-b-2 border-transparent text-gray-500 hover:text-gray-700 focus:outline-none">
+                    <i class="fas fa-chart-line mr-2"></i>Mondev
+                </button>
+                <button onclick="showTab('history')" class="tab-btn flex-1 px-4 py-3 text-sm font-medium text-center border-b-2 border-transparent text-gray-500 hover:text-gray-700 focus:outline-none">
+                    <i class="fas fa-history mr-2"></i>Riwayat
+                </button>
+                <button onclick="showTab('settings')" class="tab-btn flex-1 px-4 py-3 text-sm font-medium text-center border-b-2 border-transparent text-gray-500 hover:text-gray-700 focus:outline-none">
+                    <i class="fas fa-cog mr-2"></i>Pengaturan
+                </button>
+            </div>
+        </div>
+
+        <!-- Hitung Paket Tab -->
+        <div id="hitung-paket" class="tab-content">
+            <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">
+                    <i class="fas fa-box mr-2 text-red-500"></i>Kalkulator Paket
+                </h2>
+
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Paket Biasa</label>
+                        <input type="number" id="paketBiasa" placeholder="Jumlah paket biasa"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent">
+                        <p class="text-sm text-gray-500 mt-1">Rp 1.250 per paket</p>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Paket Paycool</label>
+                        <input type="number" id="paketPaycool" placeholder="Jumlah paket paycool"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent">
+                        <p class="text-sm text-gray-500 mt-1">Rp 1.450 per paket (Rp 1.250 + Rp 200)</p>
+                    </div>
+                </div>
+
+                <button onclick="hitungPaket()" class="mt-6 bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-lg transition duration-300 transform hover:scale-105">
+                    <i class="fas fa-calculator mr-2"></i>Hitung Total
+                </button>
+
+                <div id="hasilHitung" class="mt-6 p-4 bg-gray-50 rounded-lg hidden">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Hasil Perhitungan:</h3>
+                    <div id="detailHasil" class="text-gray-700"></div>
+                    <button onclick="printStruck('paket')" class="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg text-sm">
+                        <i class="fas fa-print mr-2"></i>Print Struck
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mondev Tab -->
+        <div id="mondev" class="tab-content hidden">
+            <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">
+                    <i class="fas fa-chart-line mr-2 text-red-500"></i>Monitoring Delivery
+                </h2>
+
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Total Paket Dibawa</label>
+                        <input type="number" id="totalPaket" placeholder="Jumlah total paket"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Sisa Paket</label>
+                        <input type="number" id="sisaPaket" placeholder="Sisa paket yang belum terkirim"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent">
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Waktu Pengiriman</label>
+                    <select id="waktuPengiriman" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent">
+                        <option value="sebelum-12">Sebelum Jam 12:00</option>
+                        <option value="setelah-12">Setelah Jam 12:00</option>
+                    </select>
+                </div>
+
+                <button onclick="hitungMondev()" class="mt-6 bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-lg transition duration-300 transform hover:scale-105">
+                    <i class="fas fa-chart-bar mr-2"></i>Hitung Persentase
+                </button>
+
+                <div id="hasilMondev" class="mt-6 p-4 bg-gray-50 rounded-lg hidden">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Hasil Monitoring:</h3>
+                    <div id="detailMondev" class="text-gray-700"></div>
+                    <button onclick="printStruck('mondev')" class="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg text-sm">
+                        <i class="fas fa-print mr-2"></i>Print Struck
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- History Tab -->
+        <div id="history" class="tab-content hidden">
+            <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">
+                    <i class="fas fa-history mr-2 text-red-500"></i>Riwayat Perhitungan
+                </h2>
+                <div class="flex justify-between items-center mb-4">
+                    <div class="flex gap-2">
+                        <button onclick="exportToCSV()" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg text-sm">
+                            <i class="fas fa-file-csv mr-2"></i>Export CSV
+                        </button>
+                        <button onclick="exportToPDF()" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg text-sm">
+                            <i class="fas fa-file-pdf mr-2"></i>Export PDF
+                        </button>
+                    </div>
+                    <button onclick="clearHistory()" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg text-sm">
+                        <i class="fas fa-trash mr-2"></i>Hapus Riwayat
+                    </button>
+                </div>
+                <div id="historyList" class="space-y-4 max-h-96 overflow-y-auto"></div>
+            </div>
+        </div>
+
+        <!-- Settings Tab -->
+        <div id="settings" class="tab-content hidden">
+            <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">
+                    <i class="fas fa-cog mr-2 text-red-500"></i>Pengaturan
+                </h2>
+
+                <div class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Nama Kurir</label>
+                        <input type="text" id="namaKurir" placeholder="Nama kurir/pengguna"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Target Paket Harian</label>
+                        <input type="number" id="targetHarian" placeholder="Target jumlah paket per hari"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Harga Custom (opsional)</label>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <input type="number" id="hargaBiasaCustom" placeholder="Harga paket biasa custom"
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent">
+                            <input type="number" id="hargaPaycoolCustom" placeholder="Harga paket paycool custom"
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent">
+                        </div>
+                        <p class="text-sm text-gray-500 mt-1">Kosongkan untuk menggunakan harga default</p>
+                    </div>
+
+                    <button onclick="saveSettings()" class="bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-lg transition duration-300">
+                        <i class="fas fa-save mr-2"></i>Simpan Pengaturan
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics Dashboard -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">
+                <i class="fas fa-tachometer-alt mr-2 text-red-500"></i>Statistik Hari Ini
+            </h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="statistics">
+                <!-- Statistics will be loaded here -->
+            </div>
+
+            <!-- Progress Bar Target Harian -->
+            <div class="mt-6" id="targetProgress" style="display: none;">
+                <div class="flex justify-between items-center mb-2">
+                    <span class="text-sm font-medium text-gray-700">Progress Target Harian</span>
+                    <span class="text-sm text-gray-600" id="progressText">0/0 paket</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-3">
+                    <div id="progressBar" class="bg-red-500 h-3 rounded-full transition-all duration-300" style="width: 0%"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modern Footer with Credits -->
+    <footer class="bg-gray-800 text-white mt-auto">
+        <div class="container mx-auto px-4 py-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- About Section -->
+                <div class="col-span-1 md:col-span-2">
+                    <h3 class="text-xl font-bold mb-4 text-red-400">
+                        <i class="fas fa-shipping-fast mr-2"></i>JNT Shipment Calculator
+                    </h3>
+                    <p class="text-gray-300 mb-4">
+                        Aplikasi modern untuk menghitung paket dan monitoring delivery dengan mudah dan akurat.
+                        Didesain khusus untuk kurir JNT Indonesia.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-red-400 transition duration-300">
+                            <i class="fab fa-facebook-f text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-red-400 transition duration-300">
+                            <i class="fab fa-twitter text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-red-400 transition duration-300">
+                            <i class="fab fa-instagram text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-red-400 transition duration-300">
+                            <i class="fab fa-linkedin-in text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-red-400">Fitur Utama</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" onclick="showTab('hitung-paket')" class="text-gray-300 hover:text-white transition duration-300">
+                            <i class="fas fa-calculator mr-2"></i>Hitung Paket
+                        </a></li>
+                        <li><a href="#" onclick="showTab('mondev')" class="text-gray-300 hover:text-white transition duration-300">
+                            <i class="fas fa-chart-line mr-2"></i>Mondev
+                        </a></li>
+                        <li><a href="#" onclick="showTab('history')" class="text-gray-300 hover:text-white transition duration-300">
+                            <i class="fas fa-history mr-2"></i>Riwayat
+                        </a></li>
+                        <li><a href="#" onclick="exportToCSV()" class="text-gray-300 hover:text-white transition duration-300">
+                            <i class="fas fa-download mr-2"></i>Export Data
+                        </a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-4 text-red-400">Kontak & Support</h4>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><i class="fas fa-envelope mr-2"></i>support@jnt-calc.com</li>
+                        <li><i class="fas fa-phone mr-2"></i>+62 812-3456-7890</li>
+                        <li><i class="fas fa-clock mr-2"></i>24/7 Support</li>
+                        <li><i class="fas fa-shield-alt mr-2"></i>Version 2.0.1</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Credits and Copyright -->
+            <div class="border-t border-gray-700 mt-8 pt-6">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <div class="text-center md:text-left mb-4 md:mb-0">
+                        <p class="text-gray-300">
+                            <i class="fas fa-code mr-2"></i>
+                            Dibuat dengan ❤️ oleh <span class="font-bold text-red-400">Rus Manto</span>
+                        </p>
+                        <p class="text-sm text-gray-400 mt-1">
+                            Full Stack Developer | Indonesia
+                        </p>
+                    </div>
+
+                    <div class="text-center md:text-right">
+                        <p class="text-gray-400 text-sm">
+                            © 2025 JNT Shipment Calculator. All rights reserved.
+                        </p>
+                        <p class="text-gray-500 text-xs mt-1">
+                            Powered by Tailwind CSS & Pure JavaScript
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Additional Credits -->
+                <div class="text-center mt-4 pt-4 border-t border-gray-700">
+                    <p class="text-xs text-gray-500">
+                        <i class="fas fa-heart mr-1 text-red-500"></i>
+                        Special thanks to JNT Indonesia & Kurir Indonesia
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Custom JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
