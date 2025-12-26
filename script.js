@@ -1,6 +1,48 @@
-// JNT Shipment Calculator - Main JavaScript
-
 // Initialize
+// Dark Mode Management
+function toggleDarkMode() {
+    const body = document.body;
+    const button = document.getElementById('darkModeToggle');
+    const icon = button.querySelector('i');
+    
+    body.classList.toggle('dark');
+    
+    // Save preference
+    const isDark = body.classList.contains('dark');
+    localStorage.setItem('darkMode', isDark);
+    
+    // Update icon
+    if (isDark) {
+        icon.classList.remove('fa-moon');
+        icon.classList.add('fa-sun');
+    } else {
+        icon.classList.remove('fa-sun');
+        icon.classList.add('fa-moon');
+    }
+}
+
+// Load dark mode preference
+function loadDarkMode() {
+    const isDark = localStorage.getItem('darkMode') === 'true';
+    const body = document.body;
+    const button = document.getElementById('darkModeToggle');
+    const icon = button.querySelector('i');
+    
+    if (isDark) {
+        body.classList.add('dark');
+        icon.classList.remove('fa-moon');
+        icon.classList.add('fa-sun');
+    }
+}
+
+// Update existing DOMContentLoaded
+document.addEventListener('DOMContentLoaded', function() {
+    loadDarkMode(); // Tambah ini
+    loadSettings();
+    loadHistory();
+    updateStatistics();
+});
+
 document.addEventListener('DOMContentLoaded', function() {
     loadSettings();
     loadHistory();
