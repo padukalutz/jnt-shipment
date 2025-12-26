@@ -4,15 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JNT Shipment Calculator</title>
-
+    
     <!-- External CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
-    <!-- Custom CSS -->                                   <link rel="stylesheet" href="style.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
 </head>
-<body class="bg-gray-100 min-h-screen flex flex-col">
-    <div class="container mx-auto px-4 py-8 max-w-6xl flex-grow">                                                   <!-- Header -->
+<body class="bg-gray-100">
+    <!-- Dark Mode Toggle -->
+    <button onclick="toggleDarkMode()" class="dark-mode-toggle" id="darkModeToggle" title="Toggle Dark Mode">
+        <i class="fas fa-moon text-xl"></i>
+    </button>
+
+    <div class="container mx-auto px-4 py-8 max-w-6xl flex-grow">
+        <!-- Header -->
         <div class="bg-gradient-to-r from-red-500 to-red-600 rounded-lg shadow-lg p-6 mb-8">
             <h1 class="text-3xl font-bold text-white text-center">
                 <i class="fas fa-shipping-fast mr-2"></i>JNT Shipment Calculator
@@ -207,7 +214,7 @@
                 <!-- About Section -->
                 <div class="col-span-1 md:col-span-2">
                     <h3 class="text-xl font-bold mb-4 text-red-400">
-                        <i class="fas fa-shipping-fast mr-2"></i>JNT Shipment Calculator
+                        <i class="fas fa-shipping-fast mr-2"></i>JNT Shipment
                     </h3>
                     <p class="text-gray-300 mb-4">
                         Aplikasi modern untuk menghitung paket dan monitoring delivery dengan mudah dan akurat.
@@ -252,10 +259,10 @@
                 <div>
                     <h4 class="text-lg font-semibold mb-4 text-red-400">Kontak & Support</h4>
                     <ul class="space-y-2 text-gray-300">
-                        <li><i class="fas fa-envelope mr-2"></i>support@jnt-calc.com</li>
-                        <li><i class="fas fa-phone mr-2"></i>+62 812-3456-7890</li>
+                        <li><i class="fas fa-envelope mr-2"></i>jntcallcenter@jet.co.id</li>
+                        <li><i class="fas fa-phone mr-2"></i>021-8066-1888</li>
                         <li><i class="fas fa-clock mr-2"></i>24/7 Support</li>
-                        <li><i class="fas fa-shield-alt mr-2"></i>Version 2.0.1</li>
+                        <li><i class="fas fa-shield-alt mr-2"></i>Version 1.0.0</li>
                     </ul>
                 </div>
             </div>
@@ -275,10 +282,7 @@
 
                     <div class="text-center md:text-right">
                         <p class="text-gray-400 text-sm">
-                            © 2025 JNT Shipment Calculator. All rights reserved.
-                        </p>
-                        <p class="text-gray-500 text-xs mt-1">
-                            Powered by Tailwind CSS & Pure JavaScript
+                            © 2025 JNT Shipment. All rights reserved.
                         </p>
                     </div>
                 </div>
